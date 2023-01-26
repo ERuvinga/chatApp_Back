@@ -6,11 +6,12 @@ const app = express();  // methode express
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methodes', 'GET', 'POST');
+    res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-type, authorization ');
     next();
 })
 
-app.use('/', (req, res) => {
+app.use('/api/stuff', (req, res) => {
 
     const stuff = [
         {
