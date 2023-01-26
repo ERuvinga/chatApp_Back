@@ -11,7 +11,7 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/api/stuff', (req, res) => {
+app.use((req, res) => {
 
     const stuff = [
         {
