@@ -4,10 +4,10 @@
 const express = require('express');
 const app = express();  // methode express
 
-app.use((req, res, next) => {
+app.use((req, res, next) => { // Middlware that control a CORS methodes
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET', 'POST');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-type, authorization ');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     next();
 })
 
