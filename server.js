@@ -18,7 +18,7 @@ const normalPort = val => {
 
 
 
-const port = normalPort(4200);
+const port = normalPort(4002);
 app.set('port', port);
 const server = http.createServer(app);
 

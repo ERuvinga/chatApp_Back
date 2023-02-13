@@ -3,6 +3,7 @@
 
 const express = require('express');
 const app = express();  // methode express
+require('./db/index'); //include the function connect api to database
 
 app.use((req, res, next) => { // Middlware that control a CORS methodes
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -11,21 +12,6 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
     next();
 })
 
-app.use((req, res) => {
-
-    const stuff = [
-        {
-            _id: '1234',
-            title: "mon article",
-            description: "description de l'article",
-            imageUrl: "",
-            useId: 25
-        }
-    ]
-    res.json(stuff);
-    res.status(200);
-});
-
-
+app.use((req, res) => { });
 
 module.exports = app;
