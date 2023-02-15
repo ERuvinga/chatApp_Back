@@ -3,7 +3,8 @@
 
 const express = require('express');
 const app = express();  // methode express
-require('./db/index'); //include the function connect api to database
+const UsersRoute = require('./Routes/user');
+//require('./db/index'); //include the function connect api to database
 
 app.use((req, res, next) => { // Middlware that control a CORS methodes
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -12,6 +13,6 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
     next();
 })
 
-app.use((req, res) => { });
+app.use('/api/Auth', UsersRoute);
 
 module.exports = app;
