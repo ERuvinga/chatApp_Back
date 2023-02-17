@@ -5,6 +5,12 @@ const modelSchema = require('../Models/user');
 exports.login = (req, res) => {
     console.log(req.body);
 
+
+}
+
+// controller that control a register endpoint
+exports.register = (req, res) => {
+    console.log(req.body);
     user = new modelSchema({
         ...req.body
     }); // create a new user and check it with model and shema
@@ -17,10 +23,4 @@ exports.login = (req, res) => {
         .catch(error => {
             console.log(error);
         });
-
-}
-
-// controller that control a register endpoint
-exports.register = (req, res) => {
-    console.log(req.body);
 }
