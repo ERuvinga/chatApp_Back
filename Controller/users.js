@@ -16,11 +16,15 @@ exports.register = (req, res) => {
     }); // create a new user and check it with model and shema
 
     // if this data correct, we save it
-    user.Save()
-        .then(() => {
-            console.log('userCreate success');
+    user.save()
+        .then((dataUser) => {
+            console.log(`${dataUser}user Create success`);
+            res.status(200);
+            res.json({ dataUser });
         })
         .catch(error => {
-            console.log(error);
+            res.status(401);
+            res.json({ error });
+            console.error(error);
         });
 }
