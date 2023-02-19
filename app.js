@@ -14,14 +14,15 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
     next();
 })
 
-app.post('/api', (req, res) => {
+/*app.use('/api', (req, res) => {
     console.log('valid request');
     console.log(req.body);
     res.status(200);
     res.json({
         ...req.body
     })
-});
+});*/
+
 app.use('/api/Auth', UsersRoute);
 
 module.exports = app;
