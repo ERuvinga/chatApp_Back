@@ -11,8 +11,6 @@ exports.login = (req, res) => {
 
 // controller that control a register endpoint
 exports.register = (req, res) => {
-
-    console.log(req.body);
     const saltCrypt = 10;
 
     bcrypt.hash(req.body.password, saltCrypt)
@@ -26,7 +24,7 @@ exports.register = (req, res) => {
             // if this data correct, we save it
             user.save()
                 .then((dataUser) => {
-                    console.log(`${dataUser}user Create success`);
+                    console.log(`user Create success : ${dataUser}`);
                     res.status(200);
                     res.json({ dataUser });
                 })
