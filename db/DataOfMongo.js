@@ -6,7 +6,6 @@ const secretKey = 'QWATR/|DONATEeLIE';
 
 const dataMongo = jwt.verify(Token, secretKey).datas.split(',');
 
-
 exports.MongoInfos = {
     user: dataMongo[0],
     password: dataMongo[1]

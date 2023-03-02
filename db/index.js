@@ -13,7 +13,6 @@ mongoose.set('strictQuery', true);
 mongoose.connect(local_url, dataConfig)
     .then(() => {
         console.log("Api connect to dataBase");
-        console.log(`remote_url: ${remote_url}`);
     })
     .catch(error => {
         console.log(error);
