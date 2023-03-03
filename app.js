@@ -16,14 +16,14 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
     next();
 })
 
-/*app.use('/api', (req, res) => {
+app.use('/api', (req, res) => {
     console.log('valid request');
-    console.log(req.body);
+    console.log(req.headers);
     res.status(200);
     res.json({
         ...req.body
     })
-});*/
+});
 
 app.use('/api/Auth', UsersRoute);
 
