@@ -3,12 +3,12 @@
 const jwt = require('jsonwebtoken');
 const Random = 'RANDOM\?/CHATAPP';
 
-module.exports = (req, res, next) => {
+module.exports = (req, res) => {
     let token;
     let decodeToken;
     try {
-        token = req.headers.autorization.split(' '); // find a token in request
-        token = token[1];                                   // filtre a data 
+        token = req.headers.autorization.split(' ');     // find a token in request
+        token = token[1];                                // filtre a data 
         decodeToken = jwt.verify(token, Random);
         //send a datas
         res.status(200);
@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
     }
     catch (error) {
         res.status(401);
-        res.json({ error });
-        console.log(error)
+        res.json({ error }); //responder a client with error content 
+        console.log(error.message); // log the messageError
     }
 };
