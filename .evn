@@ -1,0 +1,4 @@
+# any Environement Variables of app
+
+ _RANDOM_TOKEN = 'CHAT-APP?>RANDOM_KEYAPP'
+ _PORT_API = 3001

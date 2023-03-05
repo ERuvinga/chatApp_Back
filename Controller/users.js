@@ -1,6 +1,8 @@
 // all controller for users
 const modelSchemauser = require('../Models/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const RANDOM = 'RANDOM\?/CHATAPP';
 
 //controller that control a login endpoint
 exports.login = (req, res) => {
@@ -12,13 +14,17 @@ exports.login = (req, res) => {
                     .then(isValid => {
                         if (isValid) {
                             res.status(200);
-                            res.json({ message: `${UserFund.email}: connected` });
+                            res.json({
+                                message: `${UserFund.email}: connected`,
+                                userId: UserFund._id,
+                                token: jwt.sign({ userId: UserFund._id }, RANDOM)
+                            });
                             console.info("user Connect")
                         }
 
                         else {
                             res.status(401);
-                            res.end('email/password invalid');
+                            res.json({ message: 'email-password invalid' });
                             console.log('incorect password!');
                         }
                     })
@@ -31,8 +37,8 @@ exports.login = (req, res) => {
 
             else {
                 res.status(401);
-                res.end('email/password invalid');
-                console.error("email incorect");
+                res.json({ message: 'email-password invalid' });
+                console.error("incorect email");
             }
         })
         .catch(error => {
