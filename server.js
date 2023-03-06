@@ -1,9 +1,9 @@
-// mon point d'entree de mon app
-
+// server app
+require('dotenv').config(); // config a env variables
 const http = require('http');
 const app = require('./app');
 
-
+// function to Normaliz format of Port
 const normalPort = val => {
     const port = parseInt(val, 10);
     if (isNaN(port)) {
@@ -18,7 +18,7 @@ const normalPort = val => {
 
 
 
-const port = normalPort(4002);
+const port = normalPort(process.env._PORT);
 app.set('port', port);
 const server = http.createServer(app);
 
