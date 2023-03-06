@@ -80,3 +80,16 @@ exports.register = (req, res) => {
             console.error(error);
         })
 }
+
+//find all Users
+
+exports.getAllUsers = (req, res) => {
+    modelSchemauser.find()
+        .then(datas => {
+            res.status(200);
+            res.json({ users: datas })
+        })
+        .catch(error => {
+            console.log(error);
+        });
+};
