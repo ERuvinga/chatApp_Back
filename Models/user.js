@@ -21,6 +21,11 @@ const userSchema = mongoose.Schema({
     lastOnline: {
         type: Date,
         default: Date.now
+    },
+
+    status: {
+        type: Boolean,
+        default: false
     }
 });
 

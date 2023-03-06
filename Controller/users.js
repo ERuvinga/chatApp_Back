@@ -15,7 +15,7 @@ exports.login = (req, res) => {
                         if (isValid) {
                             res.status(200);
                             res.json({
-                                message: `${UserFund.email}: connected`,
+                                message: `${UserFund.email}: connected `,
                                 userId: UserFund._id,
                                 token: jwt.sign({ userId: UserFund._id }, RANDOM)
                             });
