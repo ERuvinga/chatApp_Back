@@ -2,7 +2,6 @@
 // notre Application EPRESS
 
 const express = require('express');
-require('./db/DataOfMongo'); //include the function generate a token to database
 require('./db/index'); //include the function connect api to database
 
 const app = express();  // methode express
