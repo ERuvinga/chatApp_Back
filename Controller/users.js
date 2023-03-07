@@ -2,7 +2,6 @@
 const modelSchemauser = require('../Models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const RANDOM = 'RANDOM\?/CHATAPP';
 
 //controller that control a login endpoint
 exports.login = (req, res) => {
@@ -17,7 +16,7 @@ exports.login = (req, res) => {
                             res.json({
                                 message: `${UserFund.email}: connected `,
                                 userId: UserFund._id,
-                                token: jwt.sign({ userId: UserFund._id }, RANDOM)
+                                token: jwt.sign({ userId: UserFund._id }, process.env._RANDOM_TOKEN)
                             });
                             console.info("user Connect")
                         }
@@ -55,7 +54,6 @@ exports.register = (req, res) => {
 
     bcrypt.hash(req.body.password, saltCrypt)
         .then(passwordCrypt => {
-
             user = new modelSchemauser({
                 email: req.body.email,
                 password: passwordCrypt

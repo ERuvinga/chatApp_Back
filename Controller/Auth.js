@@ -2,7 +2,6 @@
 // this middleware content content functions cheching the validity of token
 const jwt = require('jsonwebtoken');
 const modelUsers = require('../Models/user');
-const Random = 'RANDOM\?/CHATAPP';
 
 module.exports = (req, res) => {
     let token;
@@ -10,7 +9,7 @@ module.exports = (req, res) => {
     try {
         token = req.headers.autorization.split(' ');     // find a token in request
         token = token[1];                                // filtre a data 
-        decodeToken = jwt.verify(token, Random);
+        decodeToken = jwt.verify(token, process.env._RANDOM_TOKEN);
 
         //search user in dataBase
         modelUsers.findOne({ _id: decodeToken.userId })
