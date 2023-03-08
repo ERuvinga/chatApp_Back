@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 //controller that control a login endpoint
 exports.login = (req, res) => {
 
-    modelSchemauser.findOne({ email: req.body.email })
+    modelUsers.findOne({ email: req.body.email })
         .then(UserFund => {
             if (UserFund) {
                 bcrypt.compare(req.body.password, UserFund.password)
