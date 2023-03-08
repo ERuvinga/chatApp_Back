@@ -5,7 +5,8 @@ const express = require('express');
 require('./db/index'); //include the function connect api to database
 
 const app = express();  // methode express
-const UsersRoute = require('./Routes/user');
+const authRoute = require('./Routes/auth');
+const UsersRoute = require('./Routes/users');
 const ConversationRoute = require('./Routes/conversation');
 
 app.use(express.json());
@@ -16,7 +17,8 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
     next();
 })
 
-app.use('/api/Auth', UsersRoute);
+app.use('/api/Auth', authRoute);
+app.use('/api/user', UsersRoute);
 app.use('/api/conversations', ConversationRoute)
 
 module.exports = app;
