@@ -55,7 +55,7 @@ exports.register = (req, res) => {
 
     bcrypt.hash(req.body.password, saltCrypt)
         .then(passwordCrypt => {
-            user = new modelSchemauser({
+            user = new modelUsers({
                 email: req.body.email,
                 password: passwordCrypt
             }); // create a new user and check it with model and shema
