@@ -9,8 +9,16 @@ const dataConfig = {
 mongoose.set('strictQuery', true);
 mongoose.connect(process.env._LOCAL_MONGODB_LINK, dataConfig)
     .then(() => {
-        console.log("Api connect to dataBase");
+        console.log("Local Api connect to dataBase");
     })
-    .catch(error => {
-        console.log(error);
+    .catch(() => {
+        mongoose.connect(process.env._REMOTE_MONGODB_LINK, dataConfig)
+
+            .then(() => {
+                console.log("Remote Api connect ")
+            })
+
+            .catch((error) => {
+                console.log(error);
+            });
     });
