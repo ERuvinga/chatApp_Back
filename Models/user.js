@@ -6,10 +6,26 @@ const userSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-
     password: {
         type: String,
         required: true
+    },
+    name: {
+        type: String,
+        default: ''
+    },
+    picture: {
+        type: String,
+        default: ''
+    },
+    lastOnline: {
+        type: Date,
+        default: Date.now
+    },
+
+    status: {
+        type: Boolean,
+        default: false
     }
 });
 

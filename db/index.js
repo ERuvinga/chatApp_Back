@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-const { MongoInfos } = require('./DataOfMongo');
-
-const local_url = "mongodb://127.0.0.1:27017/Chat-App" // local dataBase
-const remote_url = `mongodb+srv://${MongoInfos.user}:${MongoInfos.password}@chatapp.oud1pus.mongodb.net/?retryWrites=true&w=majority` //remote database
+require('dotenv').config();
 
 const dataConfig = {
     useNewUrlParser: true,
@@ -10,7 +7,7 @@ const dataConfig = {
 }
 
 mongoose.set('strictQuery', true);
-mongoose.connect(local_url, dataConfig)
+mongoose.connect(process.env._LOCAL_MONGODB_LINK, dataConfig)
     .then(() => {
         console.log("Api connect to dataBase");
     })
