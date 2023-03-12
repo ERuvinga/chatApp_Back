@@ -17,6 +17,9 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
     next();
 })
 
+app.ue((req, res) => {
+    res.end("Test Api! Api fuctionnel")
+});
 app.use('/api/Auth', authRoute);
 app.use('/api/user', UsersRoute);
 app.use('/api/conversations', ConversationRoute)
