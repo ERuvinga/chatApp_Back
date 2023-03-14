@@ -1,7 +1,6 @@
 const modelConversation = require('../Models/conversation');
 //add New message 
 exports.AddNewMessage = (req, res) => {
-    console.log(req.body);
     const Conversat = new modelConversation({
         members: {
             SenderId: req.auth.UserId,
@@ -9,12 +8,13 @@ exports.AddNewMessage = (req, res) => {
         },
 
         messages: {
-            ...req.body.dataOfMessage.messages
+            message: req.body.dataOfMessage.messages.message,
+            type: req.body.dataOfMessage.messages.type,
         }
     })
 
     Conversat.save()
-        .then()
+        .then(Conversation => console.log(Conversation))
         .catch(error => console.log(error))
 };
 

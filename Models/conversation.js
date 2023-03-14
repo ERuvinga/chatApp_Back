@@ -6,7 +6,16 @@ const convesationShema = mongoose.Schema({
     },
 
     messages: {
-        type: Object,
+        type: {
+            message: {
+                type: String,
+                required: true
+            },
+            Hour: {
+                type: Date,
+                default: Date.now
+            }
+        },
         required: true,
     }
 });
