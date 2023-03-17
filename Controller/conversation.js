@@ -46,16 +46,13 @@ exports.AddNewMessage = (req, res) => {
     const NewMessages = {
         message: req.body.dataOfMessage.messages.message,
         type: req.body.dataOfMessage.messages.type,
+        Hour: req.body.dataOfMessage.messages.hour,
         senderId: req.auth.UserId,
-        Hour: ''
     }
 
     modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
         .then(() => console.log(`New message of ${idConversation}`))
         .catch(error => console.log(error));
-
-    console.log(NewMessages);
-
 };
 
 // search One conversation
