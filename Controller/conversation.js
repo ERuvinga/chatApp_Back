@@ -29,7 +29,7 @@ exports.NewConversation = (req, res) => {
             else {
                 res.status(200);
                 res.json({
-                    _idCoversation: conversation._id,
+                    _idConv: conversation._id,
                     messages: conversation.messages
                 });
             }
@@ -42,21 +42,20 @@ exports.NewConversation = (req, res) => {
 
 // New message 
 exports.AddNewMessage = (req, res) => {
-    const Conversat = new modelConversation({
-        members: {
-            SenderId: req.auth.UserId,
-            OtherUser: req.body.dataOfMessage.members.otherUser,
-        },
+    const idConversation = req.params.id;
+    const NewMessages = {
+        message: req.body.dataOfMessage.messages.message,
+        type: req.body.dataOfMessage.messages.type,
+        senderId: req.auth.UserId,
+        Hour: ''
+    }
 
-        messages: {
-            message: req.body.dataOfMessage.messages.message,
-            type: req.body.dataOfMessage.messages.type,
-        }
-    })
+    modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
+        .then(() => console.log(`New message of ${idConversation}`))
+        .catch(error => console.log(error));
 
-    Conversat.save()
-        .then(Conversation => console.log(Conversation))
-        .catch(error => console.log(error))
+    console.log(NewMessages);
+
 };
 
 // search One conversation
