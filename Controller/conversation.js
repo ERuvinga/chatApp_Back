@@ -19,13 +19,16 @@ exports.NewConversation = (req, res) => {
                 // New conversation
                 Conversat.save()
                     .then(NewConversation => {
-                        console.log(NewConversation._id)
+                        res.status(200);
+                        res.json({ _idConvesation: NewConversation._id });
+                        console.log("New conversation created");
                     })
                     .catch(error => console.log(error))
 
             }
             else {
-                console.log(conversation)
+                res.status(200);
+                res.json({ _idCoversation: conversation._id });
             }
         }
         )
