@@ -18,7 +18,7 @@ app.use((req, res, next) => { // Middlware that control a CORS methodes
 })
 
 // middleware test if api is running in deploy
-app.get("/test", (req, res) => {
+app.get("/", (req, res) => {
     res.end("Test Api! Api fuctionnel")
 });
 
