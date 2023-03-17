@@ -1,22 +1,14 @@
 const mongoose = require('mongoose');
 const convesationShema = mongoose.Schema({
     members: {
-        type: Object,
+        type: [],
         required: true,
     },
 
     messages: {
-        type: {
-            message: {
-                type: String,
-                required: true
-            },
-            Hour: {
-                type: Date,
-                default: Date.now
-            }
-        },
+        type: [],
         required: true,
+
     }
 });
 
