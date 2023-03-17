@@ -18,7 +18,7 @@ exports.getOneUser = (req, res) => {
 
 //find all Users
 exports.getAllUsers = (req, res) => {
-    modelSchemauser.find()
+    modelSchemauser.find({ _id: { $ne: req.auth.UserId } })
         .then(datas => {
             res.status(200);
             res.json({ users: datas })

@@ -28,7 +28,10 @@ exports.NewConversation = (req, res) => {
             }
             else {
                 res.status(200);
-                res.json({ _idCoversation: conversation._id });
+                res.json({
+                    _idCoversation: conversation._id,
+                    messages: conversation.messages
+                });
             }
         }
         )
