@@ -8,23 +8,30 @@ exports.NewConversation = (req, res) => {
     //check if this conversation are available
     modelConversation.findOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMeber }] }, { $and: [{ "members.0": _idSecondMeber }, { "members.1": _idFirstMember }] }] })
         .then(conversation => {
-            console.log(conversation)
+            if (conversation === null) { //if notFund conversation, create new
+                const Conversat = new modelConversation({
+                    members: [
+                        req.auth.UserId,
+                        req.body._idOtherUser
+                    ]
+                })
+
+                // New conversation
+                Conversat.save()
+                    .then(NewConversation => {
+                        console.log(NewConversation._id)
+                    })
+                    .catch(error => console.log(error))
+
+            }
+            else {
+                console.log(conversation)
+            }
         }
         )
         .catch(error => console.log(error));
 
-    //     const Conversat = new modelConversation({
 
-    //         members: [
-    //             req.auth.UserId,
-    //             req.body._idOtherUser
-    //         ]
-    //     })
-
-    //     Conversat.save()
-    //         .then(Conversation => console.log(Conversation))
-    //         .catch(error => console.log(error))
-    //
 };
 
 // New message 
