@@ -20,8 +20,8 @@ exports.NewConversation = (req, res) => {
                 Conversat.save()
                     .then(NewConversation => {
                         res.status(200);
-                        res.json({ _idConvesation: NewConversation._id });
-                        console.log("New conversation created");
+                        res.json({ _idConvesation: NewConversation._id, messages: NewConversation.messages });
+                        console.log(`New conversation created:`);
                     })
                     .catch(error => console.log(error))
 
@@ -35,7 +35,11 @@ exports.NewConversation = (req, res) => {
             }
         }
         )
-        .catch(error => console.log(error));
+        .catch(error => {
+            console.log(error)
+            res.stetus(401);
+            res.json({ error });
+        });
 
 
 };
@@ -51,7 +55,11 @@ exports.AddNewMessage = (req, res) => {
     }
 
     modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
-        .then(() => console.log(`New message of ${idConversation}`))
+        .then(() => {
+            console.log(`New message of ${idConversation}`);
+            res.status(200);
+            res.json({ message: `New message of ${idConversation}` });
+        })
         .catch(error => console.log(error));
 };
 
