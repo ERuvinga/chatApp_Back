@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const convesationShema = mongoose.Schema({
     members: {
-        type: Object,
+        type: [],
         required: true,
     },
 
     messages: {
-        type: Object,
+        type: [],
         required: true,
+
     }
 });
 

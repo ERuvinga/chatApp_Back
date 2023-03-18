@@ -19,7 +19,7 @@ exports.login = (req, res) => {
                                 userId: UserFund._id,
                                 token: jwt.sign({ userId: UserFund._id }, process.env._RANDOM_TOKEN)
                             });
-                            console.info("user Connect")
+                            console.info(`${UserFund.email}: connected `)
                         }
 
                         else {
@@ -46,8 +46,8 @@ exports.login = (req, res) => {
             console.error(error);
             res.end(error);
         })
-
 }
+
 
 // controller that control a register endpoint
 exports.register = (req, res) => {
@@ -79,6 +79,7 @@ exports.register = (req, res) => {
             console.error(error);
         })
 }
+
 
 exports.CheckAuthentiqUser = (req, res) => {
     let token;
