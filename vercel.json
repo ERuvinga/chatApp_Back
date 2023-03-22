@@ -1,6 +1,6 @@
 {
 	"version": 2,
-	"name": "Chat-Backend",
+	"name": "Chat-App_Backend",
 	"builds": [
 		{
 			"src": "./server.js",
@@ -9,7 +9,7 @@
 	],
 	"routes": [
 		{
-			"src": "/.*",
+			"src": "/(.*)",
 			"dest": "server.js"
 		}
 	]
