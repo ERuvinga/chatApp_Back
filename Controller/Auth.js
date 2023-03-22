@@ -43,8 +43,8 @@ exports.login = (req, res) => {
         })
         .catch(error => {
             res.status(404);
-            console.error(error);
             res.end(error);
+            console.error(error);
         })
 }
 
@@ -67,8 +67,8 @@ exports.register = (req, res) => {
                     res.json({ message: `${dataUser.email} : New user created` });
                 })
                 .catch(error => {
-                    res.status(400);
-                    res.json({ error });
+                    res.status(401);
+                    res.json({ message: `${req.body.email} : user exist` });
                     console.error(error);
                 });
         })
