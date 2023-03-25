@@ -92,6 +92,11 @@ exports.CheckAuthentiqUser = (req, res) => {
         //search user in dataBase
         modelUsers.findOne({ _id: decodeToken.userId })
             .then(dataOfUser => {
+
+                if (!dataOfUser) {
+                    throw 'Utilisateur Non Identifier'; //Adding Error Log
+                }
+
                 res.status(200);
                 res.json({
                     email: dataOfUser.email,
