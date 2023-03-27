@@ -46,21 +46,30 @@ exports.NewConversation = (req, res) => {
 
 // New message 
 exports.AddNewMessage = (req, res) => {
+    console.log(req.body);
     const idConversation = req.params.id;
+    IndexTable = req.body.lengthConver - 1;
     const NewMessages = {
         message: req.body.dataOfMessage.messages.message,
         type: req.body.dataOfMessage.messages.type,
         Hour: req.body.dataOfMessage.messages.hour,
         senderId: req.auth.UserId,
+        LastMsgInConver: req.body.LasUserInConver
     }
 
-    modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
-        .then(() => {
-            console.log(`New message of ${idConversation}`);
-            res.status(200);
-            res.json({ message: `New message of ${idConversation}` });
+    modelConversation.updateOne({ _id: idConversation }, { $set: { "messages.2.LastMsgInConver": true } })
+        .then(data => {
+            console.log(data)
         })
-        .catch(error => console.log(error));
+        .catch();
+
+    // modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
+    //     .then(() => {
+    //         console.log(`New message of ${idConversation}`);
+    //         res.status(200);
+    //         res.json({ message: `New message of ${idConversation}` });
+    //     })
+    //     .catch(error => console.log(error));
 };
 
 // search One conversation
