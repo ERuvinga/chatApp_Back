@@ -46,9 +46,7 @@ exports.NewConversation = (req, res) => {
 
 // New message 
 exports.AddNewMessage = (req, res) => {
-    console.log(req.body);
     const idConversation = req.params.id;
-    IndexTable = req.body.lengthConver - 1;
     const NewMessages = {
         message: req.body.dataOfMessage.messages.message,
         type: req.body.dataOfMessage.messages.type,
@@ -57,19 +55,33 @@ exports.AddNewMessage = (req, res) => {
         LastMsgInConver: req.body.LasUserInConver
     }
 
-    modelConversation.updateOne({ _id: idConversation }, { $set: { "messages.2.LastMsgInConver": true } })
+    modelConversation.findOne({ _id: idConversation })
         .then(data => {
-            console.log(data)
-        })
-        .catch();
+            data.messages[data.messages.length - 1].LastMsgInConver = !(data.messages[data.messages.length - 1].LastMsgInConver);
+            //updated the last message     
+            modelConversation.updateOne({ _id: idConversation }, { $set: { messages: data.messages } })
+                .then(() => {
+                    //Adding new message
+                    modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
+                        .then(() => {
+                            console.log(`New message of ${idConversation}`);
+                            res.status(200);
+                            res.json({ message: `New message of ${idConversation}` });
+                        })
+                        .catch(error => console.log(error));
+                })
+                .catch(error => {
+                    console.log(error)
+                })
 
-    // modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
-    //     .then(() => {
-    //         console.log(`New message of ${idConversation}`);
-    //         res.status(200);
-    //         res.json({ message: `New message of ${idConversation}` });
-    //     })
-    //     .catch(error => console.log(error));
+
+            console.log(data.messages[data.messages.length - 1])
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+
 };
 
 // search One conversation
