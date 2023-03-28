@@ -52,30 +52,45 @@ exports.AddNewMessage = (req, res) => {
         type: req.body.dataOfMessage.messages.type,
         Hour: req.body.dataOfMessage.messages.hour,
         senderId: req.auth.UserId,
-        LastMsgInConver: req.body.LasUserInConver
+        LastMsgInConver: true,
     }
 
     modelConversation.findOne({ _id: idConversation })
         .then(data => {
-            data.messages[data.messages.length - 1].LastMsgInConver = !(data.messages[data.messages.length - 1].LastMsgInConver);
-            //updated the last message     
-            modelConversation.updateOne({ _id: idConversation }, { $set: { messages: data.messages } })
-                .then(() => {
-                    //Adding new message
-                    modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
-                        .then(() => {
-                            console.log(`New message of ${idConversation}`);
-                            res.status(200);
-                            res.json({ message: `New message of ${idConversation}` });
-                        })
-                        .catch(error => console.log(error));
-                })
-                .catch(error => {
-                    console.log(error)
-                })
 
+            //checking if conversation content messages and if SenderUser Changing
+            if (data.messages.length > 0) {
+                if (data.messages[data.messages.length - 1].senderId === NewMessages.senderId) { // if now senderUser is last SenderUser
+                    data.messages[data.messages.length - 1].LastMsgInConver = false
+                }
 
-            console.log(data.messages[data.messages.length - 1])
+                //created a first message or updated the last message  
+                modelConversation.updateOne({ _id: idConversation }, { $set: { messages: data.messages } })
+                    .then(() => {
+                        //Adding new message
+                        modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
+                            .then(() => {
+                                console.log(`New message of ${idConversation}`);
+                                res.status(200);
+                                res.json({ message: `New message of ${idConversation}` });
+                            })
+                            .catch(error => console.log(error));
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+            else {
+                //Adding new message
+                modelConversation.updateOne({ _id: idConversation }, { $push: { messages: NewMessages } })
+                    .then(() => {
+                        console.log(`New message of ${idConversation}`);
+                        res.status(200);
+                        res.json({ message: `New message of ${idConversation}` });
+                    })
+                    .catch(error => console.log(error));
+            }
+
         })
         .catch(error => {
             console.log(error);
