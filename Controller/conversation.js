@@ -46,7 +46,6 @@ exports.NewConversation = (req, res) => {
 
 // New message 
 exports.AddNewMessage = (req, res) => {
-    console.log(req.params.idConversat);
     const NewMessages = {
         message: req.body.dataOfMessage.messages.message,
         type: req.body.dataOfMessage.messages.type,
@@ -55,9 +54,8 @@ exports.AddNewMessage = (req, res) => {
         LastMsgInConver: true,
     }
 
-    modelConversation.find({ _id: req.params.idConversat })
+    modelConversation.findOne({ _id: req.params.idConversat })
         .then(data => {
-            console.log(data.messages)
             //checking if conversation content messages and if SenderUser Changing
             if (req.body.lengthConver > 0) {
                 if (data.messages[data.messages.length - 1].senderId === NewMessages.senderId) { // if now senderUser is last SenderUser
