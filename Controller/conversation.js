@@ -1,7 +1,8 @@
 const modelConversation = require('../Models/conversation');
+const modelLastMessage = require('../Models/LastMessage');
 
 //add New Conversation
-exports.NewConversation = (req, res) => {
+exports.NewConversation = (req, res, next) => {
     _idFirstMember = req.auth.UserId;
     _idSecondMeber = req.body._idOtherUser;
 
@@ -40,9 +41,13 @@ exports.NewConversation = (req, res) => {
             res.status(401);
             res.json({ error });
         });
-
-
+    next();
 };
+
+// create New LastMessage document
+exports.LastMessage = (req, res) => {
+    console.log("Last Message");
+}
 
 // New message 
 exports.AddNewMessage = (req, res) => {
