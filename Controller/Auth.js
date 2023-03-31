@@ -53,6 +53,7 @@ exports.login = (req, res) => {
 // controller that control a register endpoint
 exports.register = (req, res, next) => {
     const saltCrypt = 10;
+
     bcrypt.hash(req.body.password, saltCrypt)
         .then(passwordCrypt => {
             user = new modelUsers({
@@ -85,7 +86,15 @@ exports.register = (req, res, next) => {
 exports.LastMessage = (req, res) => {
     modelUsers.find()
         .then(data => {
-            data.map((value) => console.log(value._id));
+            data.map((value) => {
+                LastMesg = new modelLastMessage({
+                    members: [req.User.id, value._id]
+                });
+
+                LastMesg.save()
+                    .then(() => console.log('lasts messages created'))
+                    .catch(error => console.log(error));
+            });
 
             //respond client
             res.status(200);

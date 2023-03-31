@@ -5,9 +5,8 @@ const LastMessageSchema = mongoose.Schema({
         required: true,
     },
     messages: {
-        type: [{}],
+        type: {},
         required: true,
-
     }
 })
 
