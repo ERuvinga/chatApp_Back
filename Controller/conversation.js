@@ -4,10 +4,10 @@ const modelLastMessage = require('../Models/LastMessage');
 //add New Conversation
 exports.NewConversation = (req, res, next) => {
     _idFirstMember = req.auth.UserId;
-    _idSecondMeber = req.body._idOtherUser;
+    _idSecondMember = req.body._idOtherUser;
 
     //check if this conversation are available
-    modelConversation.findOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMeber }] }, { $and: [{ "members.0": _idSecondMeber }, { "members.1": _idFirstMember }] }] })
+    modelConversation.findOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] })
         .then(conversation => {
             if (conversation === null) { //if notFund conversation, create new
                 const Conversat = new modelConversation({

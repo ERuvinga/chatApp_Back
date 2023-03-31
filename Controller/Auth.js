@@ -1,12 +1,13 @@
 
 // this middleware content content functions cheching the validity of token
 const modelUsers = require('../Models/user');
+const modelLastMessage = require('../Models/LastMessage');
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 //controller that control a login endpoint
 exports.login = (req, res) => {
-
     modelUsers.findOne({ email: req.body.email })
         .then(UserFund => {
             if (UserFund) {
@@ -50,9 +51,8 @@ exports.login = (req, res) => {
 
 
 // controller that control a register endpoint
-exports.register = (req, res) => {
+exports.register = (req, res, next) => {
     const saltCrypt = 10;
-
     bcrypt.hash(req.body.password, saltCrypt)
         .then(passwordCrypt => {
             user = new modelUsers({
@@ -63,8 +63,8 @@ exports.register = (req, res) => {
             // if this data correct, we save it
             user.save()
                 .then((dataUser) => {
-                    res.status(200);
-                    res.json({ message: `${dataUser.email} : New user created` });
+                    req.User = { id: dataUser._id, email: dataUser.email }
+                    next();
                 })
                 .catch(error => {
                     res.status(401);
@@ -78,7 +78,23 @@ exports.register = (req, res) => {
             res.json({ error });
             console.error(error);
         })
+
 }
+
+// create New LastMessage document
+exports.LastMessage = (req, res) => {
+    modelUsers.find()
+        .then(data => {
+            data.map((value) => console.log(value._id));
+
+            //respond client
+            res.status(200);
+            res.json({ message: `${req.User.email} : New user created` });
+        }
+        )
+        .catch(error => console.log(error));
+}
+
 
 
 exports.CheckAuthentiqUser = (req, res) => {
