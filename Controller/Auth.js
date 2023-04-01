@@ -84,11 +84,16 @@ exports.register = (req, res, next) => {
 
 // create New LastMessage document
 exports.LastMessage = (req, res) => {
-    modelUsers.find()
+    modelUsers.find({ _id: { $ne: req.User.id } }) // search any user without user Created now
         .then(data => {
+            console.log(data);
             data.map((value) => {
                 LastMesg = new modelLastMessage({
-                    members: [req.User.id, value._id]
+                    members: [req.User.id, value._id],
+                    messages: {
+                        type: 'text',
+                        content: 'No message ...'
+                    }
                 });
 
                 LastMesg.save()

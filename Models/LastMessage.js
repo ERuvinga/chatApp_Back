@@ -7,6 +7,11 @@ const LastMessageSchema = mongoose.Schema({
     messages: {
         type: {},
         required: true,
+    },
+
+    hour: {
+        type: Date,
+        default: Date.now()
     }
 })
 
