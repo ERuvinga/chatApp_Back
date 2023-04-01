@@ -86,7 +86,6 @@ exports.register = (req, res, next) => {
 exports.LastMessage = (req, res) => {
     modelUsers.find({ _id: { $ne: req.User.id } }) // search any user without user Created now
         .then(data => {
-            console.log(data);
             data.map((value) => {
                 LastMesg = new modelLastMessage({
                     members: [req.User.id, value._id],
@@ -97,7 +96,7 @@ exports.LastMessage = (req, res) => {
                 });
 
                 LastMesg.save()
-                    .then(() => console.log('lasts messages created'))
+                    .then()
                     .catch(error => console.log(error));
             });
 
