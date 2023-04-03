@@ -59,7 +59,6 @@ exports.AddNewMessage = (req, res, next) => {
         LastMsgInConver: true,
     }
 
-    console.log(_idFirstMember)
     modelConversation.findOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] })
         .then(data => {
             //checking if conversation content messages and if SenderUser Changing
@@ -68,7 +67,6 @@ exports.AddNewMessage = (req, res, next) => {
                     data.messages[data.messages.length - 1].LastMsgInConver = false
                 }
 
-                console.log('pas derreur ici');
                 //created a first message or updated the last message  
                 modelConversation.updateOne({ _id: req.params.idConversat }, { $set: { messages: data.messages } })
                     .then(() => {
@@ -78,6 +76,7 @@ exports.AddNewMessage = (req, res, next) => {
                                 console.log(`New message in ${req.params.idConversat} conversation`);
                                 res.status(200);
                                 res.json({ message: `New message in ${req.params.idConversat} conversation` });
+                                next();
                             })
                             .catch(error => console.log(error));
                     })
@@ -92,6 +91,7 @@ exports.AddNewMessage = (req, res, next) => {
                         console.log(`New message in ${req.params.idConversat} conversation`);
                         res.status(200);
                         res.json({ message: `New message in ${req.params.idConversat} conversation` });
+                        next();
                     })
                     .catch(error => console.log(error));
             }
