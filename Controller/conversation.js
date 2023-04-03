@@ -2,7 +2,7 @@ const modelConversation = require('../Models/conversation');
 const modelLastMessage = require('../Models/LastMessage');
 
 //add New Conversation
-exports.NewConversation = (req, res, next) => {
+exports.NewConversation = (req, res) => {
     _idFirstMember = req.auth.UserId;
     _idSecondMember = req.body._idOtherUser;
 
@@ -14,7 +14,8 @@ exports.NewConversation = (req, res, next) => {
                     members: [
                         req.auth.UserId,
                         req.body._idOtherUser
-                    ]
+                    ],
+                    messages: []
                 })
 
                 // New conversation
@@ -41,16 +42,15 @@ exports.NewConversation = (req, res, next) => {
             res.status(401);
             res.json({ error });
         });
-    next();
 };
 
-// create New LastMessage document
-exports.LastMessage = (req, res) => {
-    console.log("Last Message");
-}
+
 
 // New message 
-exports.AddNewMessage = (req, res) => {
+exports.AddNewMessage = (req, res, next) => {
+    _idFirstMember = req.auth.UserId;
+    _idSecondMember = req.body._idOtherUser;
+
     const NewMessages = {
         message: req.body.dataOfMessage.messages.message,
         type: req.body.dataOfMessage.messages.type,
@@ -59,7 +59,8 @@ exports.AddNewMessage = (req, res) => {
         LastMsgInConver: true,
     }
 
-    modelConversation.findOne({ _id: req.params.idConversat })
+    console.log(_idFirstMember)
+    modelConversation.findOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] })
         .then(data => {
             //checking if conversation content messages and if SenderUser Changing
             if (req.body.lengthConver > 0) {
@@ -67,6 +68,7 @@ exports.AddNewMessage = (req, res) => {
                     data.messages[data.messages.length - 1].LastMsgInConver = false
                 }
 
+                console.log('pas derreur ici');
                 //created a first message or updated the last message  
                 modelConversation.updateOne({ _id: req.params.idConversat }, { $set: { messages: data.messages } })
                     .then(() => {
@@ -85,7 +87,7 @@ exports.AddNewMessage = (req, res) => {
             }
             else {
                 //Adding new message
-                modelConversation.updateOne({ _id: req.params.idConversat }, { $push: { messages: NewMessages } })
+                modelConversation.updateOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] }, { $push: { messages: NewMessages } })
                     .then(() => {
                         console.log(`New message in ${req.params.idConversat} conversation`);
                         res.status(200);
@@ -99,9 +101,12 @@ exports.AddNewMessage = (req, res) => {
             console.log('Une erreur par ici');
             console.log(error);
         });
-
-
 };
+
+// create New LastMessage document
+exports.LastMessage = (req, res) => {
+    console.log("New message and updated Last Message");
+}
 
 // search One conversation
 exports.getOneConversation = (req, res) => {
