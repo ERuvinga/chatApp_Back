@@ -73,11 +73,8 @@ exports.AddNewMessage = (req, res, next) => {
                         //Adding new message
                         modelConversation.updateOne({ _id: req.params.idConversat }, { $push: { messages: NewMessages } })
                             .then(() => {
-                                res.status(200);
-                                res.json({ message: `New message in ${req.params.idConversat} conversation` });
                                 console.log(`New message in ${req.params.idConversat} conversation`);
-
-                                req.Lastmessage = NewMessages;
+                                req.Lastmessage = { NewMessages, _idFirstMember, _idSecondMember };
                                 next();
                             })
                             .catch(error => console.log(error));
@@ -90,9 +87,8 @@ exports.AddNewMessage = (req, res, next) => {
                 //Adding new message
                 modelConversation.updateOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] }, { $push: { messages: NewMessages } })
                     .then(() => {
+                        req.Lastmessage = { NewMessages, _idFirstMember, _idSecondMember };
                         console.log(`New message in ${req.params.idConversat} conversation`);
-                        res.status(200);
-                        res.json({ message: `New message in ${req.params.idConversat} conversation` });
                         next();
                     })
                     .catch(error => console.log(error));
@@ -107,11 +103,15 @@ exports.AddNewMessage = (req, res, next) => {
 
 // create New LastMessage document
 exports.LastMessage = (req, res) => {
-    console.log(req.Lastmessage);
-    console.log("New message and updated Last Message");
-
+    console.log(req);
+    console.log("Updated Last Message");
+    modelLastMessage.findOne({ $or: [{ $and: [{ "members.0": req._idFirstMember }, { "members.1": req._idSecondMember }] }, { $and: [{ "members.0": req._idSecondMember }, { "members.1": req._idFirstMember }] }] })
+        .then(datas => console.log(datas))
     // updated document
-    modelLastMessage.updateOne({})
+    //modelLastMessage.updateOne({$or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }]})
+
+    res.status(200);
+    res.json({ message: `New message in ${req.params.idConversat} conversation` });
 }
 
 // search One conversation
