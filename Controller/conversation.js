@@ -73,9 +73,11 @@ exports.AddNewMessage = (req, res, next) => {
                         //Adding new message
                         modelConversation.updateOne({ _id: req.params.idConversat }, { $push: { messages: NewMessages } })
                             .then(() => {
-                                console.log(`New message in ${req.params.idConversat} conversation`);
                                 res.status(200);
                                 res.json({ message: `New message in ${req.params.idConversat} conversation` });
+                                console.log(`New message in ${req.params.idConversat} conversation`);
+
+                                req.Lastmessage = NewMessages;
                                 next();
                             })
                             .catch(error => console.log(error));
@@ -105,7 +107,11 @@ exports.AddNewMessage = (req, res, next) => {
 
 // create New LastMessage document
 exports.LastMessage = (req, res) => {
+    console.log(req.Lastmessage);
     console.log("New message and updated Last Message");
+
+    // updated document
+    modelLastMessage.updateOne({})
 }
 
 // search One conversation

@@ -32,7 +32,6 @@ exports.getAllUsers = (req, res, next) => {
 exports.getAllLastMesg = (req, res) => {
     modelLastMessage.find()
         .then((LastMesg) => {
-            console.log(LastMesg);
             res.status(200);
             res.json({ users: req.AllUsers, lastMesg: LastMesg });
         })
