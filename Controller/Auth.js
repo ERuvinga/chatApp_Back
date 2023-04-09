@@ -88,7 +88,7 @@ exports.LastMessage = (req, res) => {
         .then(data => {
             data.map((value) => {
                 LastMesg = new modelLastMessage({
-                    members: [req.User.id, value._id],
+                    members: [req.User.id.toString(), value._id.toString()],
                     messages: {
                         type: 'text',
                         content: 'No message ...'
