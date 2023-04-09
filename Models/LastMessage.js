@@ -15,7 +15,7 @@ const LastMessageSchema = mongoose.Schema({
     },
     noReadMesgs: {
         type: Number,
-        default: 0
+        required: true
     }
 })
 

@@ -105,15 +105,23 @@ exports.AddNewMessage = (req, res, next) => {
 exports.LastMessage = (req, res) => {
     console.log("Updated Last Message");
 
-    // updated document
-    modelLastMessage.updateOne({ $or: [{ $and: [{ "members.0": req.Lastmessage._idFirstMember }, { "members.1": req.Lastmessage._idSecondMember }] }, { $and: [{ "members.0": req.Lastmessage._idSecondMember }, { "members.1": req.Lastmessage._idFirstMember }] }] }, {
-        messages: {
-            type: req.Lastmessage.NewMessages.type,
-            content: req.Lastmessage.NewMessages.message
-        }
-    })
-        .then()
-        .catch(error => console.log(error));
+    //search LastMessage
+    modelLastMessage.findOne({ $or: [{ $and: [{ "members.0": req.Lastmessage._idFirstMember }, { "members.1": req.Lastmessage._idSecondMember }] }, { $and: [{ "members.0": req.Lastmessage._idSecondMember }, { "members.1": req.Lastmessage._idFirstMember }] }] })
+        .then(LastMessage => {
+            console.log(LastMessage)
+            // updated document
+            modelLastMessage.updateOne({ _id: LastMessage._id }, {
+                messages: {
+                    type: req.Lastmessage.NewMessages.type,
+                    content: req.Lastmessage.NewMessages.message
+                },
+                noReadMesgs: LastMessage.noReadMesgs + 1,
+            })
+                .then()
+                .catch(error => console.log(error));
+        })
+        .catch();
+
 
     res.status(200);
     res.json({ message: `New message in ${req.params.idConversat} conversation` });

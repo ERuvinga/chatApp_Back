@@ -92,7 +92,8 @@ exports.LastMessage = (req, res) => {
                     messages: {
                         type: 'text',
                         content: 'No message ...'
-                    }
+                    },
+                    noReadMesgs: 0
                 });
 
                 LastMesg.save()
