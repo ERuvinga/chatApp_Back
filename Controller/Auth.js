@@ -1,12 +1,13 @@
 
 // this middleware content content functions cheching the validity of token
 const modelUsers = require('../Models/user');
+const modelLastMessage = require('../Models/LastMessage');
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 //controller that control a login endpoint
 exports.login = (req, res) => {
-
     modelUsers.findOne({ email: req.body.email })
         .then(UserFund => {
             if (UserFund) {
@@ -50,7 +51,7 @@ exports.login = (req, res) => {
 
 
 // controller that control a register endpoint
-exports.register = (req, res) => {
+exports.register = (req, res, next) => {
     const saltCrypt = 10;
 
     bcrypt.hash(req.body.password, saltCrypt)
@@ -63,8 +64,8 @@ exports.register = (req, res) => {
             // if this data correct, we save it
             user.save()
                 .then((dataUser) => {
-                    res.status(200);
-                    res.json({ message: `${dataUser.email} : New user created` });
+                    req.User = { id: dataUser._id, email: dataUser.email }
+                    next();
                 })
                 .catch(error => {
                     res.status(401);
@@ -78,7 +79,36 @@ exports.register = (req, res) => {
             res.json({ error });
             console.error(error);
         })
+
 }
+
+// create New LastMessage document
+exports.LastMessage = (req, res) => {
+    modelUsers.find({ _id: { $ne: req.User.id } }) // search any user without user Created now
+        .then(data => {
+            data.map((value) => {
+                LastMesg = new modelLastMessage({
+                    members: [req.User.id.toString(), value._id.toString()],
+                    messages: {
+                        type: 'text',
+                        content: 'No message ...'
+                    },
+                    noReadMesgs: 0
+                });
+
+                LastMesg.save()
+                    .then()
+                    .catch(error => console.log(error));
+            });
+
+            //respond client
+            res.status(200);
+            res.json({ message: `${req.User.email} : New user created` });
+        }
+        )
+        .catch(error => console.log(error));
+}
+
 
 
 exports.CheckAuthentiqUser = (req, res) => {
@@ -92,6 +122,11 @@ exports.CheckAuthentiqUser = (req, res) => {
         //search user in dataBase
         modelUsers.findOne({ _id: decodeToken.userId })
             .then(dataOfUser => {
+
+                if (!dataOfUser) {
+                    throw 'Utilisateur Non Identifier'; //Adding Error Log
+                }
+
                 res.status(200);
                 res.json({
                     email: dataOfUser.email,

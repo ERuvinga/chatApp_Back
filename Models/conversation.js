@@ -6,7 +6,7 @@ const convesationShema = mongoose.Schema({
     },
 
     messages: {
-        type: [],
+        type: [{}],
         required: true,
 
     }

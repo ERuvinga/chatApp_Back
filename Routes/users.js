@@ -5,6 +5,6 @@ const Auth = require('../Middleware/Auth')
 
 //UserRoutes
 router.get('/:userId', Auth, UsersCtrl.getOneUser);
-router.get('/', Auth, UsersCtrl.getAllUsers);
+router.get('/', Auth, UsersCtrl.getAllUsers, UsersCtrl.getAllLastMesg);
 
 module.exports = router;
