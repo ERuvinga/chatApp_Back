@@ -104,15 +104,16 @@ exports.AddNewMessage = (req, res, next) => {
 // create New LastMessage document
 exports.LastMessage = (req, res) => {
     console.log("Updated Last Message");
+
+    // updated document
     modelLastMessage.updateOne({ $or: [{ $and: [{ "members.0": req.Lastmessage._idFirstMember }, { "members.1": req.Lastmessage._idSecondMember }] }, { $and: [{ "members.0": req.Lastmessage._idSecondMember }, { "members.1": req.Lastmessage._idFirstMember }] }] }, {
         messages: {
             type: req.Lastmessage.NewMessages.type,
             content: req.Lastmessage.NewMessages.message
         }
     })
-        .then(datas => console.log(datas))
-    // updated document
-    //modelLastMessage.updateOne({$or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }]})
+        .then()
+        .catch(error => console.log(error));
 
     res.status(200);
     res.json({ message: `New message in ${req.params.idConversat} conversation` });
