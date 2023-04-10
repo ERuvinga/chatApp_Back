@@ -27,6 +27,7 @@ exports.getAllUsers = (req, res, next) => {
         .catch(error => {
             console.log(error);
         });
+
 };
 
 exports.getAllLastMesg = (req, res) => {
