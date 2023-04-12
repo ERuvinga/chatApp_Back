@@ -27,7 +27,11 @@ const io = new Server(server, {
 }); // socket.io integrated
 
 io.on("connection", (socket) => {
-    console.log(`New user Connected: ${socket.id}`);
+    socket.broadcast.emit('user_Connected', 'Other User Connected'); // emit event to Other User
+    socket.on('New_Message', (message) => { // addEventList New_Message
+        console.log(message);
+        io.emit('New_Message', message.Other);
+    })
 });
 
 // fuctions of socket.io
