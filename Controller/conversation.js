@@ -132,7 +132,7 @@ exports.LastMessage = (req, res) => {
 
 
     res.status(200);
-    res.json({ message: `New message in ${req.params.idConversat} conversation` });
+    res.json({ message: req.Lastmessage.NewMessages });
 }
 
 // search One conversation
