@@ -29,6 +29,15 @@ exports.NewConversation = (req, res) => {
 
             }
             else {
+
+                //update a number of no Read message of user
+                modelLastMessage.updateMany({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] }, {
+                    $set: { noReadMesgs: 0 }
+                })
+                    .then()
+                    .catch(error => console.log(error));
+
+                //respond client
                 res.status(200);
                 res.json({
                     _idConv: conversation._id,
@@ -108,7 +117,6 @@ exports.LastMessage = (req, res) => {
     //search LastMessage
     modelLastMessage.findOne({ $or: [{ $and: [{ "members.0": req.Lastmessage._idFirstMember }, { "members.1": req.Lastmessage._idSecondMember }] }, { $and: [{ "members.0": req.Lastmessage._idSecondMember }, { "members.1": req.Lastmessage._idFirstMember }] }] })
         .then(LastMessage => {
-            console.log(LastMessage)
             // updated document
             modelLastMessage.updateOne({ _id: LastMessage._id }, {
                 messages: {
@@ -124,7 +132,7 @@ exports.LastMessage = (req, res) => {
 
 
     res.status(200);
-    res.json({ message: `New message in ${req.params.idConversat} conversation` });
+    res.json({ message: req.Lastmessage.NewMessages });
 }
 
 // search One conversation
