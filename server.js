@@ -29,8 +29,11 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
     socket.broadcast.emit('user_Connected', 'Other User Connected'); // emit event to Other User
     socket.on('New_Message', (message) => { // addEventList New_Message
-        console.log(message);
         io.emit('New_Message', message.Other);
+    });
+
+    socket.on('New_Connection', (User) => {
+        console.log(User);
     })
 });
 
