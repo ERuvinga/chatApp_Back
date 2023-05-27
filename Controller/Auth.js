@@ -20,7 +20,6 @@ exports.login = (req, res) => {
                                 userId: UserFund._id,
                                 token: jwt.sign({ userId: UserFund._id }, process.env._RANDOM_TOKEN)
                             });
-                            console.info(`${UserFund.email}: connected `)
                         }
 
                         else {

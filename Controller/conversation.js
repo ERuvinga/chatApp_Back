@@ -77,10 +77,10 @@ exports.AddNewMessage = (req, res, next) => {
                 }
 
                 //created a first message or updated the last message  
-                modelConversation.updateOne({ _id: req.params.idConversat }, { $set: { messages: data.messages } })
+                modelConversation.updateOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] }, { $set: { messages: data.messages } })
                     .then(() => {
                         //Adding new message
-                        modelConversation.updateOne({ _id: req.params.idConversat }, { $push: { messages: NewMessages } })
+                        modelConversation.updateOne({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] }, { $push: { messages: NewMessages } })
                             .then(() => {
                                 console.log(`New message in ${req.params.idConversat} conversation`);
                                 req.Lastmessage = { NewMessages, _idFirstMember, _idSecondMember };
