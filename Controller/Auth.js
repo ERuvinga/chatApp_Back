@@ -52,10 +52,10 @@ exports.login = (req, res) => {
 // controller that control a register endpoint
 exports.register = (req, res, next) => {
     const saltCrypt = 10;
-
     bcrypt.hash(req.body.password, saltCrypt)
         .then(passwordCrypt => {
             user = new modelUsers({
+                name : req.body.firstName+' '+req.body.lastName,
                 email: req.body.email,
                 password: passwordCrypt
             }); // create a new user and check it with model and shema
@@ -73,6 +73,7 @@ exports.register = (req, res, next) => {
                 });
         })
 
+    
         .catch(error => {
             res.status(500);
             res.json({ error });
