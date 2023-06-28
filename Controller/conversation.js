@@ -105,7 +105,6 @@ exports.AddNewMessage = (req, res, next) => {
 
         })
         .catch(error => {
-            console.log('Une erreur par ici');
             console.log(error);
         });
 };
