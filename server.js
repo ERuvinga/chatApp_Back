@@ -32,16 +32,21 @@ io.on("connection", (socket) => {
     socket.on('New_Connection', (User) => {
         socket.idUser = User.user;
         updateStatusOfUsers.userConnected(socket.idUser.userId);
+        socket.broadcast.emit('user_Connected',socket.idUser); // emit event to Other User
     });
 
-    socket.broadcast.emit('user_Connected', 'Other User Connected'); // emit event to Other User
     socket.on('New_Message', (message) => { // addEventList New_Message
-        io.emit('New_Message', message.Other);
-       console.log(socket.idUser);
+        const eventMessages ={
+            other:message.Other,
+            userSender: socket.idUser 
+        };
+        
+        io.emit('New_Message', eventMessages);
     });
 
     socket.on('disconnect', ()=>{
         updateStatusOfUsers.userDisconnected(socket.idUser.userId);// updated status of user
+        socket.broadcast.emit('user_disconnected',socket.idUser); // emit event to Other User
     });
 });
 
