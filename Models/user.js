@@ -18,6 +18,12 @@ const userSchema = mongoose.Schema({
         type: String,
         default: ''
     },
+
+    compteCreated:{
+        type:Date,
+        default: Date.now
+    },
+
     lastOnline: {
         type: Date,
         default: Date.now
