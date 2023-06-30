@@ -6,15 +6,18 @@ exports.userConnected = (idUser)=>{
         $set:{status:true}
     })
 
-    .then(()=> console.log("status Updated true for"))
+    .then(()=> null)
     .catch((error) => console.log(error));
 }
 
 exports.userDisconnected = (idUser)=>{
     userModel.updateOne({_id:idUser},{
-        $set:{status:false}
+        $set:{
+            status:false,
+            lastOnline:Date() 
+        },
     })
 
-    .then(()=> console.log("status Updated false for"))
+    .then(()=> null)
     .catch((error) => console.log(error)); 
 }
