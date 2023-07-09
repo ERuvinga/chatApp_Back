@@ -12,15 +12,21 @@ const userSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        default: ''
+        required: true
     },
     picture: {
         type: String,
         default: ''
     },
+
+    compteCreated:{
+        type:Date,
+        default: Date()
+    },
+
     lastOnline: {
         type: Date,
-        default: Date.now
+        default: Date()
     },
 
     status: {
