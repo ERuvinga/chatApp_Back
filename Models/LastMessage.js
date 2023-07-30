@@ -14,7 +14,7 @@ const LastMessageSchema = mongoose.Schema({
         default: Date.now()
     },
     noReadMesgs: {
-        type: Number,
+        type: [],
         required: true
     }
 })
