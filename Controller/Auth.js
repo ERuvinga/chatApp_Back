@@ -93,7 +93,17 @@ exports.LastMessage = (req, res) => {
                         type: 'text',
                         content: 'No message ...'
                     },
-                    noReadMesgs: 0
+                    noReadMesgs: [
+                        {
+                            user: req.User.id.toString(),
+                            val: 0
+                        },
+
+                        {
+                            user: value._id.toString(),
+                            val: 0
+                        }
+                    ]
                 });
 
                 LastMesg.save()
