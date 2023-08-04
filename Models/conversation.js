@@ -10,6 +10,7 @@ const convesationShema = mongoose.Schema({
         required: true,
 
     }
+
 });
 
 module.exports = mongoose.model("conversation", convesationShema);
