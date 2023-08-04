@@ -45,6 +45,7 @@ exports.NewConversation = (req, res, next) => {
             }
         })
         .catch(error => {
+            console.log("Erreur par ici");
             console.log(error)
             res.status(401);
             res.json({ error });
@@ -110,25 +111,31 @@ exports.AddNewMessage = (req, res, next) => {
 // create New LastMessage document
 exports.LastMessage = (req, res) => {
     console.log("Updated Last Message");
+    let noReadMsg_updates = [];
 
     //search LastMessage
     modelLastMessage.findOne({ $or: [{ $and: [{ "members.0": req.Lastmessage._idFirstMember }, { "members.1": req.Lastmessage._idSecondMember }] }, { $and: [{ "members.0": req.Lastmessage._idSecondMember }, { "members.1": req.Lastmessage._idFirstMember }] }] })
         .then(LastMessage => {
-            // updated document
+            //check data 
+            noReadMsg_updates = LastMessage.noReadMesgs;
+            noReadMsg_updates.map((value)=>{
+                if(value.user !== req.Lastmessage.NewMessages.senderId){
+                    value.val += 1;
+                }
+            })
+
+           // updated document
             modelLastMessage.updateOne({ _id: LastMessage._id }, {
                 messages: {
                     type: req.Lastmessage.NewMessages.type,
                     content: req.Lastmessage.NewMessages.message
                 },
-                noReadMesgs : LastMessage.noReadMesgs.map((value, index)=>{
-                    if(value.user !== req.Lastmessage.NewMessages.senderId){
-                        value.val += 1;
-                    }
-                })
+                noReadMesgs :noReadMsg_updates 
             })
                 .then()
                 .catch(error => console.log(error));
         })
+
         .catch();
 
 
@@ -148,7 +155,6 @@ exports.resetUnReadMsg = (req, res) => {
                 value.val = 0;
             }
         })
-        console.log(noReadMesgs_now);
          //update a number of no Read message of user
             modelLastMessage.updateMany({ $or: [{ $and: [{ "members.0": _idFirstMember }, { "members.1": _idSecondMember }] }, { $and: [{ "members.0": _idSecondMember }, { "members.1": _idFirstMember }] }] }, {
                     $set: { noReadMesgs: noReadMesgs_now}
