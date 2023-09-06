@@ -33,6 +33,7 @@ io.on("connection", (socket) => {
         socket.idUser = User.user;
         updateStatusOfUsers.userConnected(socket.idUser.userId);
         socket.broadcast.emit('user_Connected',socket.idUser); // emit event to Other User
+        console.log(User);
     });
 
     socket.on('New_Message', (message) => { // addEventList New_Message
@@ -45,8 +46,16 @@ io.on("connection", (socket) => {
     });
 
     socket.on('disconnect', ()=>{
-        updateStatusOfUsers.userDisconnected(socket.idUser.userId);// updated status of user
-        socket.broadcast.emit('user_disconnected',socket.idUser); // emit event to Other User
+        try{
+            if(socket.idUser.userId !== undefined || socket.idUser.userId !== null){ // check socket id 
+                updateStatusOfUsers.userDisconnected(socket.idUser.userId);// updated status of user
+                socket.broadcast.emit('user_disconnected',socket.idUser); // emit event to Other User            
+            }        
+        }
+
+        catch(e){
+            console.log("exception up : UserId == undefined");
+        }
     });
 });
 
