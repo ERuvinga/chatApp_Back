@@ -150,7 +150,7 @@ exports.CheckAuthentiqUser = (req, res) => {
             .catch(error => {
                 console.log(error);
                 res.status(401);
-                res.json({ userId: null })
+                res.json({ userId: null, message: error })
             })
 
 
