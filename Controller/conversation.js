@@ -130,7 +130,8 @@ exports.LastMessage = (req, res) => {
                     type: req.Lastmessage.NewMessages.type,
                     content: req.Lastmessage.NewMessages.message
                 },
-                noReadMesgs :noReadMsg_updates 
+                noReadMesgs :noReadMsg_updates,
+                hour: Date.UTC(),
             })
                 .then()
                 .catch(error => console.log(error));
