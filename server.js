@@ -27,35 +27,42 @@ const io = new Server(server, {
     }
 }); // socket.io integrated
 
+//CONNECTION EVENT
 io.on("connection", (socket) => {
+    try{
+        socket.on('New_Connection', (User) => {
+            socket.idUser = User.user;
+            updateStatusOfUsers.userConnected(socket.idUser.userId);
+            socket.broadcast.emit('user_Connected',socket.idUser); // emit event to Other User
+            console.log(`${User.user.name}: connected `);
+        });
+    }
 
-    socket.on('New_Connection', (User) => {
-        socket.idUser = User.user;
-        updateStatusOfUsers.userConnected(socket.idUser.userId);
-        socket.broadcast.emit('user_Connected',socket.idUser); // emit event to Other User
-        console.log(User);
-    });
+    catch{
+        console.log("Error whene Login");
+    }
 
-    socket.on('New_Message', (message) => { // addEventList New_Message
-        const eventMessages ={
-            other:message.Other,
-            userSender: socket.idUser 
-        };
-        
-        io.emit('New_Message', eventMessages);
-    });
-
+    //DISCONNECTE EVENT
     socket.on('disconnect', ()=>{
         try{
             if(socket.idUser.userId !== undefined || socket.idUser.userId !== null){ // check socket id 
                 updateStatusOfUsers.userDisconnected(socket.idUser.userId);// updated status of user
                 socket.broadcast.emit('user_disconnected',socket.idUser); // emit event to Other User            
+                console.log(`${socket.idUser.name}: Disconnected`);
             }        
         }
 
         catch(e){
             console.log("exception up : UserId == undefined");
         }
+    });
+
+    socket.on('New_Message', (message) => { // addEventList New_Message
+        const eventMessages ={
+            other:message.Other,
+            owner: socket.idUser.userId
+        };
+        io.emit('New_Message', eventMessages);
     });
 });
 
