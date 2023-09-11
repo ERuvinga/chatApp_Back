@@ -103,7 +103,8 @@ exports.LastMessage = (req, res) => {
                             user: value._id.toString(),
                             val: 0
                         }
-                    ]
+                    ],
+                    hour:0
                 });
 
                 LastMesg.save()

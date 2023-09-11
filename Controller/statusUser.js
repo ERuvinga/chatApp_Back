@@ -14,9 +14,7 @@ exports.userDisconnected = (idUser)=>{
     userModel.updateOne({_id:idUser},{
         $set:{
             status:false,
-        },
-        $currentDate:{
-            lastOnline:{$type:"timestamp"}
+            lastOnline: Date.now(),
         }
     })
 
