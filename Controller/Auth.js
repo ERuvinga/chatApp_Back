@@ -143,8 +143,6 @@ exports.CheckAuthentiqUser = (req, res) => {
                     email: dataOfUser.email,
                     name: dataOfUser.name,
                     picture: dataOfUser.picture,
-                    lastTimeOnline: dataOfUser.lastOnline,
-                    status: dataOfUser.status,
                     userId: dataOfUser._id
                 })
             })

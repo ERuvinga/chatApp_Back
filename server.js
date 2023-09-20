@@ -47,8 +47,8 @@ io.on("connection", (socket) => {
         try{
             if(socket.idUser.userId !== undefined || socket.idUser.userId !== null){ // check socket id 
                 updateStatusOfUsers.userDisconnected(socket.idUser.userId);// updated status of user
-                socket.broadcast.emit('user_disconnected',socket.idUser); // emit event to Other User            
                 console.log(`${socket.idUser.name}: Disconnected`);
+                socket.broadcast.emit('user_disconnected',socket.idUser); // emit event to Other User            
             }        
         }
 
