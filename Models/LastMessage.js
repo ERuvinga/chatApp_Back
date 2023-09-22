@@ -10,7 +10,7 @@ const LastMessageSchema = mongoose.Schema({
     },
 
     hour: {
-        type: Date,
+        type: Number,
         default: Date.now()
     },
     noReadMesgs: {

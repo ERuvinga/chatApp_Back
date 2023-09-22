@@ -103,7 +103,8 @@ exports.LastMessage = (req, res) => {
                             user: value._id.toString(),
                             val: 0
                         }
-                    ]
+                    ],
+                    hour:0
                 });
 
                 LastMesg.save()
@@ -142,15 +143,13 @@ exports.CheckAuthentiqUser = (req, res) => {
                     email: dataOfUser.email,
                     name: dataOfUser.name,
                     picture: dataOfUser.picture,
-                    lastTimeOnline: dataOfUser.lastOnline,
-                    status: dataOfUser.status,
                     userId: dataOfUser._id
                 })
             })
             .catch(error => {
                 console.log(error);
                 res.status(401);
-                res.json({ userId: null })
+                res.json({ userId: null, message: error })
             })
 
 
